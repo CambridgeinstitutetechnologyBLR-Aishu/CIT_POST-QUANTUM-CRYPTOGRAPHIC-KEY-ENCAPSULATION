@@ -1,9 +1,9 @@
 # Tiny Tapeout project information
 project:
-  title:        ""      "8-bit PQC NTT Accelerator"
-  author:       ""      "Aishwarya and Rishika"
+  title:        "8-bit PQC NTT Accelerator"     
+  author:       "Aishwarya and Rishika"      
   discord:      ""      
-  description:  ""      "Hardware implementation of Kyber-768 NTT core for V2X security"
+  description:  "Hardware implementation of Kyber-768 NTT core for V2X security"      
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
 
