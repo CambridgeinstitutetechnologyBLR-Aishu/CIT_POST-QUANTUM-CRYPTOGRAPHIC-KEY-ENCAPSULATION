@@ -1,9 +1,9 @@
 # Tiny Tapeout project information
 project:
-  title:      "8-bit PQC NTT Accelerator"
+  title:      "PQC NTT Butterfly Unit"
   author:     "Aishwarya and Rishika"
   discord:    ""
-  description: "Hardware implementation of Kyber-768 NTT core for V2X security"
+  description: "Hardware implementation of a Cooley-Tukey NTT Butterfly core for PQC."
   language:    "Verilog"
   clock_hz:    0
   tiles:       "1x1"
@@ -12,34 +12,32 @@ project:
 # List your project's source files here.
 source_files:
   - "project.v"
-  - "pqc_top.v"
-  - "pqc_controller.v"
   - "butterfly_unit.v"
   - "montgomery_red.v"
 
 # The pinout of your project.
 pinout:
   # Inputs
-  ui[0]: "data_in[0]"
-  ui[1]: "data_in[1]"
-  ui[2]: "data_in[2]"
-  ui[3]: "data_in[3]"
-  ui[4]: "data_in[4]"
-  ui[5]: "data_in[5]"
-  ui[6]: "data_in[6]"
-  ui[7]: "start_signal"
+  ui[0]: "input_b[0]"
+  ui[1]: "input_b[1]"
+  ui[2]: "input_b[2]"
+  ui[3]: "input_b[3]"
+  ui[4]: "input_a[0]"
+  ui[5]: "input_a[1]"
+  ui[6]: "input_a[2]"
+  ui[7]: "input_a[3]"
 
   # Outputs
-  uo[0]: "data_out[0]"
-  uo[1]: "data_out[1]"
-  uo[2]: "data_out[2]"
-  uo[3]: "data_out[3]"
-  uo[4]: "data_out[4]"
-  uo[5]: "data_out[5]"
-  uo[6]: "data_out[6]"
-  uo[7]: "data_out[7]"
+  uo[0]: "out_a[0]"
+  uo[1]: "out_a[1]"
+  uo[2]: "out_a[2]"
+  uo[3]: "out_a[3]"
+  uo[4]: "out_a[4]"
+  uo[5]: "out_a[5]"
+  uo[6]: "out_a[6]"
+  uo[7]: "out_a[7]"
 
-  # Bidirectional pins
+  # Bidirectional pins (unused)
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
@@ -50,8 +48,8 @@ pinout:
   uio[7]: ""
 
 # Descriptions
-  how_it_works: "Sequentially loads 8-bit data into a 16-bit internal Montgomery NTT core."
-  how_to_test:  "Apply 8-bit data chunks via ui_in and check uo_out for the result."
+  how_it_works: "Performs NTT butterfly addition and Montgomery reduction on 4-bit input nibbles."
+  how_to_test:  "Set ui[7:4] as A and ui[3:0] as B. Result of (A + B*omega) appears on uo_out."
 
 # Do not change!
 yaml_version: 6
