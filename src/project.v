@@ -1,31 +1,35 @@
 `default_nettype none
 
 module tt_um_pqc_aishu (
-    input  wire [7:0] ui_in,    // Dedicated inputs
-    output wire [7:0] uo_out,   // Dedicated outputs
-    input  wire [7:0] uio_in,   // IOs: Input path
-    output wire [7:0] uio_out,  // IOs: Output path
-    output wire [7:0] uio_oe,   // IOs: Enable path
-    input  wire       ena,      // always 1
-    input  wire       clk,      // clock
-    input  wire       rst_n     // reset_n - low to reset
+    input  wire [7:0] ui_in,    // Input A (4 bits) and Input B (4 bits)
+    output wire [7:0] uo_out,   // Result (Sum or Diff)
+    input  wire [7:0] uio_in,   
+    output wire [7:0] uio_out,  
+    output wire [7:0] uio_oe,   
+    input  wire       ena, clk, rst_n     
 );
 
-    // Tiny Tapeout uses Active Low reset, so we invert it for our code
-    wire reset_high = !rst_n;
+    // We split the 8-bit input: 4 bits for 'a' and 4 bits for 'b'
+    // We keep omega (the twiddle factor) as a constant 2 for the test
+    wire [15:0] a_val = {12'b0, ui_in[7:4]};
+    wire [15:0] b_val = {12'b0, ui_in[3:0]};
+    wire [15:0] omega = 16'd2;
 
-    // We don't use the bidirectional pins, so set them to 0
+    wire [15:0] out_a, out_b;
+
+    // Direct instantiation of your NTT Butterfly Unit
+    butterfly_unit ntt_core (
+        .a(a_val),
+        .b(b_val),
+        .omega(omega),
+        .out_a(out_a),
+        .out_b(out_b)
+    );
+
+    // Output the transformed 'A' result to the pins
+    assign uo_out = out_a[7:0]; 
+
     assign uio_out = 8'b0;
     assign uio_oe  = 8'b0;
-
-    // Instantiate your working 8-bit PQC core
-    pqc_top my_core (
-        .clk(clk),
-        .reset(reset_high),
-        .start(ui_in[7]),       // We use bit 7 as the 'start' signal
-        .data_in(ui_in[6:0]),   // We use bits 0-6 for data
-        .data_out(uo_out),
-        .done()                 
-    );
 
 endmodule
