@@ -9,13 +9,13 @@ project:
   tiles:       "1x1"
   top_module:  "tt_um_pqc_aishu"
 
-# List your project's source files here.
+# THE FIX: This must be separate from the project block above
 source_files:
   - "project.v"
   - "butterfly_unit.v"
   - "montgomery_red.v"
 
-# The pinout of your project.
+# The pinout section
 pinout:
   # Inputs
   ui[0]: "input_b[0]"
@@ -37,7 +37,7 @@ pinout:
   uo[6]: "out_a[6]"
   uo[7]: "out_a[7]"
 
-  # Bidirectional pins (unused)
+  # Bidirectional pins
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
@@ -47,9 +47,9 @@ pinout:
   uio[6]: ""
   uio[7]: ""
 
-# Descriptions
-  how_it_works: "Performs NTT butterfly addition and Montgomery reduction on 4-bit input nibbles."
-  how_to_test:  "Set ui[7:4] as A and ui[3:0] as B. Result of (A + B*omega) appears on uo_out."
+# THE FIX: Descriptions MUST be at the very bottom, OUTSIDE of pinout
+how_it_works: "Performs NTT butterfly addition and Montgomery reduction on 4-bit input nibbles."
+how_to_test:  "Set ui[7:4] as A and ui[3:0] as B. Result appears on uo_out."
 
 # Do not change!
 yaml_version: 6
